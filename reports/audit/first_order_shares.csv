@@ -1,0 +1,8 @@
+,first_order_share
+w_E,0.093
+H_indicator,0.005
+H_transform,0.035
+normalisation,0.011
+aggregation,0.056
+pm_error (data),0.185
+interactions (remainder),0.615

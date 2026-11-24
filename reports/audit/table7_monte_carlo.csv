@@ -1,0 +1,13 @@
+site_id,site_name,R,R_p05,R_p95,rank_median_revised,rank_p05_revised,rank_p95_revised,p_upper_revised,p_lower_revised,rank_median_original,rank_p05_original,rank_p95_original,p_upper_original,p_lower_original
+S06,Ashulia Industrial Belt,87.3,60.1,100.0,1.0,1.0,2.0,0.999,0.0,1.0,1.0,4.0,1.0,0.0
+S04,Tongi Industrial Area,84.4,48.0,96.1,2.0,2.0,3.0,0.993,0.0,4.0,2.0,6.0,0.6,0.0
+S05,DEPZ Savar,82.2,43.0,94.5,3.0,3.0,4.0,0.965,0.0,2.0,1.0,3.0,1.0,0.0
+S02,Food plant B (Gazipur),81.9,42.3,94.3,4.0,4.0,5.0,0.898,0.0,3.0,2.0,4.0,0.998,0.0
+S03,Corporate office (Dhaka),76.9,28.4,90.0,5.0,5.0,7.0,0.0,0.004,6.0,5.0,6.0,0.0,0.0
+S07,Narayanganj Town Industrial,75.9,24.1,88.2,6.0,6.0,8.0,0.0,0.026,7.0,6.0,8.0,0.0,0.011
+S01,Food plant A (Narayanganj),67.9,14.6,83.1,7.0,7.0,10.0,0.0,0.13,5.0,3.0,8.0,0.394,0.001
+S08,Chattogram Industrial Area,60.5,5.8,68.8,8.0,5.0,11.0,0.011,0.452,10.0,5.0,11.0,0.0,0.54
+S09,Bogura Industrial Area,52.6,3.8,69.1,9.0,2.0,11.0,0.07,0.678,8.0,6.0,9.0,0.008,0.46
+S10,Cumilla Industrial Area,47.5,3.6,57.8,10.0,8.0,11.0,0.018,0.874,11.0,10.0,11.0,0.0,1.0
+S12,Dinajpur Agro Belt,40.2,2.0,63.4,11.0,5.0,12.0,0.046,0.836,9.0,9.0,10.0,0.0,0.988
+S11,Sylhet Industrial Area,23.9,0.0,28.7,12.0,11.0,12.0,0.0,0.999,12.0,12.0,12.0,0.0,1.0

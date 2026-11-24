@@ -1,0 +1,51 @@
+{
+  "seed": 20261124,
+  "n_draws": 10000,
+  "distinct_air_series": 6,
+  "splice": {
+    "splice_date": "2022-08-04",
+    "other_series_start": "2022-08-04",
+    "dhaka_mean_2022_01_01_to_day_before_splice": 166.8,
+    "dhaka_daily_mean_day_before": 156.2,
+    "dhaka_daily_mean_splice_day": 12.0
+  },
+  "cshri_max_abs_diff_vs_pipeline": 0.04531740172411958,
+  "pearson_fac_wrk": 0.993,
+  "spearman_fac_wrk": 0.998,
+  "eigenvalues": [
+    0.0033,
+    0.6157,
+    1.0052,
+    2.3759
+  ],
+  "realised_influence_r2": {
+    "pm25": 0.441,
+    "facilities": 0.666,
+    "workers": 0.711,
+    "access": 0.485
+  },
+  "cronbach_alpha": 0.736,
+  "distinct_pm25_values": 6,
+  "sites_on_gazetteer_points": 7,
+  "spearman_original_vs_revised": 0.923,
+  "spearman_arith_vs_geo": 0.986,
+  "max_rank_shift": 2,
+  "pareto_front": [
+    "Ashulia Industrial Belt",
+    "Bogura Industrial Area"
+  ],
+  "first_order_shares": {
+    "w_E": 0.093,
+    "H_indicator": 0.005,
+    "H_transform": 0.035,
+    "normalisation": 0.011,
+    "aggregation": 0.056,
+    "pm_error (data)": 0.185,
+    "interactions (remainder)": 0.615
+  },
+  "loo_max_shift": {
+    "original_max_shift": 19.01,
+    "revised_minmax_max_shift": 5.27,
+    "revised_fixed_max_shift": 0.0
+  }
+}
