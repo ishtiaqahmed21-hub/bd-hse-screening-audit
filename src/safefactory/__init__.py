@@ -13,7 +13,7 @@ quality     Automated integrity screening of the source air-quality dataset
 """
 
 __version__ = "1.0.0"
-__author__ = "Ishtiaq Ahmed"
+__author__ = "Ishtiaq Ahmed Zamal"
 
 from . import compliance, exposure, incidents, ptw, quality, risk, siteindex  # noqa: F401
 

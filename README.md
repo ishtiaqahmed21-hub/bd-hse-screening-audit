@@ -17,10 +17,10 @@ district, at sub-district or area-centroid precision.
 
 ## Reproduce
 
-    pip install -r requirements.txt scipy matplotlib
-    python scripts/build_dataset.py   # integrity screen, facility counts, exposure tables
+    pip install -r requirements.txt
+    python scripts/build_dataset.py   # integrity screen, facility counts, exposure tables (Section 5.2)
     python scripts/analysis.py        # manuscript Sections 5.1 and 5.3-5.6 -> reports/audit/
-    python scripts/figs.py            # Figs. 3-7 -> reports/figures/
+    python scripts/figs.py            # Figs. 1 and 3-7 -> reports/figures/
     python -m pytest -q               # 87 unit tests
 
 Random seed 20261124, 10,000 Monte Carlo draws. Model definitions are in the header of
