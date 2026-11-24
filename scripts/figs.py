@@ -116,13 +116,15 @@ ax.legend(fontsize=6, loc="upper center", bbox_to_anchor=(0.5, 1.12), ncol=2, fr
 save(fig, "fig6_rank_intervals.png")
 
 # Fig. 7 sensitivity diagnostics
-sh = pd.read_csv(AUD / "first_order_shares.csv", index_col=0).first_order_share.sort_values()
+NICE = {"w_E": "Pillar weight", "H_indicator": "H indicator", "H_transform": "H transform", "normalisation": "Normalisation",
+        "aggregation": "Aggregation", "pm_error (data)": "PM2.5 error (data)", "interactions (remainder)": "Interactions"}
+sh = pd.read_csv(AUD / "first_order_shares.csv", index_col=0).first_order_share.rename(index=NICE).sort_values()
 sw = pd.read_csv(AUD / "pm_error_sweep_p_upper.csv", index_col=0)
 sw.index = [LABELS[f"S{i:02d}"] for i in range(1, 13)]          # same row order as sites.csv
 loo = pd.read_csv(AUD / "leave_one_out.csv")
 loo["label"] = [LABELS[f"S{i:02d}"] for i in range(1, 13)]
 fig, ax = plt.subplots(1, 3, figsize=(7.2, 2.5))
-ax[0].barh(sh.index, 100 * sh.values, color=[ORANGE if "pm" in i else GREY if "inter" in i else BLUE for i in sh.index])
+ax[0].barh(sh.index, 100 * sh.values, color=[ORANGE if "PM2.5" in i else GREY if "Inter" in i else BLUE for i in sh.index])
 for yy, v in enumerate(sh.values):
     ax[0].text(100 * v + 1, yy, f"{100 * v:.0f}%", va="center", fontsize=6)
 ax[0].set_xlabel("Share of rank variance (%)")
@@ -138,7 +140,7 @@ lo = loo.sort_values("original_max_shift")
 ax[2].barh(lo.label, lo.original_max_shift, color=BLUE)
 ax[2].set_xlabel("Max score shift after dropping site")
 ax[2].set_title("(c) Candidate-set dependence")
-ax[2].text(0.98, 0.02, "revised index (fixed goalposts): 0 for all sites", transform=ax[2].transAxes,
-           ha="right", fontsize=6, color=ORANGE)
+ax[2].text(0.98, 0.45, "Revised index\n(fixed goalposts):\n0 for all sites", transform=ax[2].transAxes,
+           ha="right", va="center", fontsize=6, color=ORANGE)
 save(fig, "fig7_sensitivity.png")
 print("written:", sorted(p.name for p in FIG.glob("fig*.png")))
