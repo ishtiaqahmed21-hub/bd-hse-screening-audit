@@ -1,8 +1,10 @@
-"""Manuscript Figs. 3-7 from the outputs of scripts/analysis.py.
+"""Manuscript Fig. 1 (study area) and Figs. 3-7 from the outputs of scripts/analysis.py.
 
-Run:  python scripts/figs.py   ->  reports/figures/fig3_structural.png ... fig7_sensitivity.png (600 dpi)
-Figs. 1 (map) and 2 (architecture diagram) are not data plots and are not produced here.
+Run:  python scripts/figs.py   ->  reports/figures/fig1_study_area.png, fig3_structural.png ... fig7_sensitivity.png (600 dpi)
+Fig. 2 (architecture diagram) is not a data plot and is not produced here.
+Boundary: Natural Earth 1:10m admin-0 (public domain), data/reference/ne_10m_bangladesh.geojson.
 """
+import json
 from pathlib import Path
 
 import matplotlib
@@ -143,4 +145,51 @@ ax[2].set_title("(c) Candidate-set dependence")
 ax[2].text(0.98, 0.45, "Revised index\n(fixed goalposts):\n0 for all sites", transform=ax[2].transAxes,
            ha="right", va="center", fontsize=6, color=ORANGE)
 save(fig, "fig7_sensitivity.png")
+
+
+# Fig. 1 study area. Company sites are plotted at the sub-district or area centroid recorded in sites.csv.
+REF = ROOT / "data/reference"
+sites = pd.read_csv(REF / "sites.csv")
+sites["label"] = sites.site_id.map(LABELS)
+sites["company"] = sites.site_id.isin(["S01", "S02", "S03"])
+gaz = pd.read_csv(REF / "bd_cities.csv")
+geom = json.load(open(REF / "ne_10m_bangladesh.geojson"))["geometry"]
+polys = geom["coordinates"] if geom["type"] == "MultiPolygon" else [geom["coordinates"]]
+BOX = (90.15, 90.70, 23.50, 24.12)              # lon0, lon1, lat0, lat1 of panel (b)
+fig, ax = plt.subplots(1, 2, figsize=(7.2, 3.9), gridspec_kw={"width_ratios": [1, 1.25]})
+for a in ax:
+    for p in polys:
+        x, y = np.asarray(p[0]).T
+        a.fill(x, y, facecolor="#F2F1EE", edgecolor="#555555", lw=0.4, zorder=0)
+    a.set_aspect(1 / np.cos(np.deg2rad(23.8)))
+    a.scatter(gaz.Longitude, gaz.Latitude, s=5, color=GREY, zorder=1, lw=0)
+    for comp, mk, col in [(False, "o", BLUE), (True, "^", ORANGE)]:
+        d = sites[sites.company == comp]
+        a.scatter(d.lon, d.lat, marker=mk, s=28, color=col, edgecolor="white", lw=0.5, zorder=3)
+    a.set_xlabel("Longitude (°E)")
+ax[0].set_ylabel("Latitude (°N)")
+ax[0].set_xlim(88.0, 92.7); ax[0].set_ylim(20.6, 26.7)
+ax[0].add_patch(plt.Rectangle((BOX[0], BOX[2]), BOX[1] - BOX[0], BOX[3] - BOX[2], fill=False, lw=0.8, zorder=4))
+for _, r in sites[sites.lat.lt(BOX[2]) | sites.lat.gt(BOX[3]) | sites.lon.gt(BOX[1]) | sites.lon.lt(BOX[0])].iterrows():
+    ax[0].annotate(r.label, (r.lon, r.lat), xytext=(4, 3), textcoords="offset points", fontsize=7)
+ax[0].set_title("(a) Twelve candidate locations")
+inner = sites[sites.lon.between(BOX[0], BOX[1]) & sites.lat.between(BOX[2], BOX[3])]
+for _, r in inner.iterrows():
+    rlat = 10 / 111.0
+    rlon = rlat / np.cos(np.deg2rad(r.lat))
+    t = np.linspace(0, 2 * np.pi, 200)
+    ax[1].plot(r.lon + rlon * np.cos(t), r.lat + rlat * np.sin(t), lw=0.8,
+               color=ORANGE if r.company else BLUE, alpha=0.7, zorder=2)
+OFFS = {"S01": (5, -9), "S02": (5, 4), "S03": (-5, -11), "S04": (5, 3), "S05": (-5, -11), "S06": (-5, 5), "S07": (5, 3)}
+for _, r in inner.iterrows():
+    dx, dy = OFFS.get(r.site_id, (5, 3))
+    ax[1].annotate(r.label, (r.lon, r.lat), xytext=(dx, dy), textcoords="offset points", fontsize=7,
+                   ha="right" if dx < 0 else "left")
+ax[1].set_xlim(BOX[0], BOX[1]); ax[1].set_ylim(BOX[2], BOX[3])
+ax[1].set_title("(b) Dhaka region with 10 km neighbourhoods")
+h = [plt.Line2D([], [], marker="^", ls="", color=ORANGE, label="Company site (sub-district or area centroid)"),
+     plt.Line2D([], [], marker="o", ls="", color=BLUE, label="Industrial area or town (centroid)"),
+     plt.Line2D([], [], marker="o", ls="", ms=3, color=GREY, label="Gazetteer place")]
+fig.legend(handles=h, loc="lower center", ncol=3, fontsize=7, frameon=False, bbox_to_anchor=(0.5, -0.04))
+save(fig, "fig1_study_area.png")
 print("written:", sorted(p.name for p in FIG.glob("fig*.png")))
